@@ -1,0 +1,27 @@
+{% extends 'home.html' %}
+{% block title %}Bookshelf{% endblock %}
+{% load rated_book_tags %}
+{% block content %}
+{% load static %}
+<link href="{% static '/css/boxes.css' %}" rel="stylesheet">
+
+<div class="container">
+    <ul>
+        {% for book in bookshelf.books.all %}
+        <li>
+            <a href="{% url 'shop:book-detail-view' book.mother_book.pk %}">
+                <div class="title">{{ book.mother_book.title }}</div>
+                <div class="title2">by {{ book.mother_book.authors }}</div>
+                <div class="description">{{ book.mother_book.description }}</div>
+                {% if book.user_rating %}
+                <div class="price"><i class="fas fa-star"></i> {{ book.user_rating }}</div>
+                {% else %}
+                <div class="price"><i class="fas fa-star"></i><a href="{% url 'shop:book-detail-view' book.mother_book.pk %}">Rate</a></div>
+                {% endif %}
+                <div class="f_buttons"><a href="{% url 'bookshelf:remove-from-bookshelf' book.mother_book.pk %}" class="btn btn-primary">Remove from bookshelf</a></div>
+            </a></li>
+        {% endfor %}
+    </ul>
+</div>
+
+{% endblock %}

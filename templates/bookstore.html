@@ -1,0 +1,42 @@
+{% extends 'home.html' %}
+{% block title %}Home{% endblock %}
+{% block content %}
+{% load static %}
+<link href="{% static '/css/boxes.css' %}" rel="stylesheet">
+
+<div class="genres">
+    <div class="row">
+        {% for genre in genres %}
+            <div class="col-lg-1">
+                <a href="{% url 'shop:books-for-sale' %}?genre={{ genre }}">{{ genre }}</a>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+<hr class="p-0 m-2">
+<div class="container">
+    <ul>
+    {% for book in all_books %}
+        <li>
+            <a href="{% url 'shop:book-detail-view' book.pk %}"><div class="title">{{ book.title }}</div>
+            <div class="title2">by {{ book.authors }}</div>
+            <div class="description">{{ book.description }}</div>
+                {% if book.user_ratings_counter %}
+                <div class="rating"><i class="fas fa-star"></i> {{ book.get_book_rating }} ({{ book.user_ratings_counter }})</div>
+                {% else %}
+                <div class="rating"><i class="fas fa-star"></i> N/A</div>
+                {% endif %}
+                {% if book.discount_price %}
+                <div class="price">${{ book.discount_price }}</div>
+                <div class="price_old">$ {{ book.price }}</div>
+                {% else %}
+                <div class="price">${{ book.price }}</div>
+                {% endif %}
+            <div class="add_to_cart">
+                <a href="{% url 'shop:add-to-cart' book.pk %}" class="btn btn-primary">Add to Cart</a>
+            </div>
+        </a></li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

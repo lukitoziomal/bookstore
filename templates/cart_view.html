@@ -1,0 +1,63 @@
+{% extends 'home.html' %}
+{% block title %}Cart{% endblock %}
+{% block content %}
+{% load static %}
+<link href="{% static '/css/tables.css' %}" rel="stylesheet">
+<link href="{% static '/css/cart.css' %}" rel="stylesheet">
+<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+<div class="container">
+    <table id="cart" class="table table-hover table-condensed">
+        <thead>
+        <tr>
+            <th style="width:50%">Product</th>
+            <th style="width:10%" class="text-center">Price</th>
+            <th style="width:8%" class="text-center">Quantity</th>
+            <th style="width:22%" class="text-center">Subtotal</th>
+            <th style="width:10%"></th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for product in cart.items.all %}
+        <tr>
+            <td data-th="Product">
+                <div class="row">
+                    <div class="col-sm-2 hidden-xs"><img src="http://placehold.it/100x100" alt="..." class="img-responsive"/></div>
+                    <div class="col-sm-10">
+                        <h3 class="title">{{ product.item.title }}</h3>
+                        <p>{{ product.item.description }}</p>
+                    </div>
+                </div>
+            </td>
+            {% if product.item.discount_price %}
+            <td class="text-center">${{ product.item.discount_price }} <del>${{ product.item.price }}</del><br />
+            Saving ${{ product.savings }}!</td>
+            {% else %}
+            <td class="text-center">${{ product.item.price }}</td>
+            {% endif %}
+            <td class="text-center">
+                <a href="{% url 'shop:single-remove-from-cart' product.item.pk %}"><i class="fas fa-minus"></i></a>
+                {{ product.quantity }}
+                <a href="{% url 'shop:add-to-cart' product.item.pk %}"><i class="fas fa-plus"></i></a>
+            </td>
+            <td class="text-center">${{ product.get_subtotal_value }}</td>
+            <td class="text-center">
+                <a href="{% url 'shop:remove-from-cart' product.item.pk %}">
+                    <button class="btn btn-danger btn-sm"><i class="fa fa-trash-o"></i></button>
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+        <tfoot>
+        <tr>
+            <td><a href="{% url 'shop:books-for-sale' %}" class="btn btn-warning"><i class="fa fa-angle-left"></i> Continue Shopping</a></td>
+            <td colspan="2" class="hidden-xs"></td>
+            <td class="hidden-xs text-center"><strong>Total ${{ cart.get_cart_value }}</strong></td>
+            <td><a href="{% url 'shop:checkout-view' %}" class="btn btn-success btn-block">Checkout <i class="fa fa-angle-right"></i></a></td>
+        </tr>
+        </tfoot>
+    </table>
+</div>
+
+{% endblock %}

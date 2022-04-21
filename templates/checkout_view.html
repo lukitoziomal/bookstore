@@ -1,0 +1,25 @@
+{% extends 'home.html' %}
+{% block title %}Checkout{% endblock %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+{% load static %}
+<link href="{% static 'css/checkout.css' %}" rel="stylesheet">
+
+<form method="POST">
+    {% csrf_token %}
+    {% crispy form %}
+
+    <div class="summaries">
+        <span class="liner"><a href="{% url 'shop:cart-view' %}" class="btn btn-warning"><i class="fa fa-angle-left"></i> Back to Cart</a></span>
+        <span class="liner">
+        {% for product in cart.items.all %}
+        {{ product.quantity }} x <a href="{% url 'shop:book-detail-view' product.item.pk %}">{{ product.item.title }}</a> <br />
+        {% endfor %}
+    </span>
+        <span class="liner">Total ${{ cart.get_cart_value }}</span>
+        <span class="liner"><button class="btn btn-success btn-block" type="submit">Payment <i class="fa fa-angle-right"></i></button></span>
+    </div>
+</form>
+
+{% endblock %}

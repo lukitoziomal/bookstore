@@ -1,0 +1,11 @@
+.form-group {
+    margin: auto;
+    margin-top: 20px;
+}
+.summaries {
+    text-align: center;
+}
+.liner {
+    display: inline-block;
+    padding: 80px;
+}

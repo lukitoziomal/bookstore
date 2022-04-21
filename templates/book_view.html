@@ -1,0 +1,67 @@
+{% extends 'home.html' %}
+{% block title %}Details{% endblock %}
+{% block content %}
+{% load static %}
+<link href="{% static '/css/details.css' %}" rel="stylesheet">
+<div class="container">
+    <div class="col-lg-8">
+        <div class="right-side-pro-detail border p-3 m-0">
+            <div class="row">
+                <div class="col-lg-12">
+                    <span>{{ book.authors }}</span>
+                    <p class="m-0 p-0">{{ book.title }}</p>
+                </div>
+                <div class="col-lg-12">
+                    {% if book.discount_price %}
+                    <p class="m-0 p-0 price-pro">${{ book.discount_price }} <del>${{ book.price }}</del></p>
+                    {% else %}
+                    <p class="m-0 p-0 price-pro">${{ book.price }}</p>
+                    {% endif %}
+                    <hr class="p-0 m-0">
+                </div>
+                <div class="col-lg-12 pt-2">
+                            <span>{{ book.description }}</span>
+                </div>
+                <div class="col-lg-12 pt-2">
+                    <p class="tag-section">Genre: <a href="{% url 'shop:books-for-sale' %}?genre={{ book.get_genre_display }}">{{ book.get_genre_display }}</a></p>
+                </div>
+                <hr class="p-0 m-2">
+                <div class="col-lg-12 pt-2">
+                    <div class="row">
+                        <div class="col-lg-2 pt-2">
+                            <i class="fas fa-star"></i> Rate
+                        </div>
+                        <div class="col-lg-2">
+                            <a href="{% url 'bookshelf:rate-book' book.pk  %}?rating=1" class="btn btn-warning">1</a>
+                        </div>
+                        <div class="col-lg-2">
+                            <a href="{% url 'bookshelf:rate-book' book.pk  %}?rating=2" class="btn btn-warning">2</a>
+                        </div>
+                        <div class="col-lg-2">
+                            <a href="{% url 'bookshelf:rate-book' book.pk  %}?rating=3" class="btn btn-warning">3</a>
+                        </div>
+                        <div class="col-lg-2">
+                            <a href="{% url 'bookshelf:rate-book' book.pk  %}?rating=4" class="btn btn-warning">4</a>
+                        </div>
+                        <div class="col-lg-2">
+                            <a href="{% url 'bookshelf:rate-book' book.pk  %}?rating=5" class="btn btn-warning">5</a>
+                        </div>
+                    </div>
+                </div>
+                <hr class="p-0 m-2">
+                <div class="col-lg-12 pt-2">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <a href="{% url 'bookshelf:add-to-bookshelf' book.pk %}" class="btn btn-danger w-100">Add to Bookshelf</a>
+                        </div>
+                        <div class="col-lg-6">
+                            <a href="{% url 'shop:add-to-cart' book.pk %}" class="btn btn-success w-100">Add to Cart</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
