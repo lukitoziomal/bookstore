@@ -26,6 +26,8 @@ Activate your virtual environment.
 
 Install project dependencies.
 
+` cd bookstore `
+
 ` pip install -r requirements.txt `
 
 
