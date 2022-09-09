@@ -173,3 +173,4 @@ def single_remove_from_cart(request, pk):
                 cart.items.remove(order_item)
                 order_item.delete()
             return redirect('shop:cart-view')
+    return redirect('shop:cart-view')
